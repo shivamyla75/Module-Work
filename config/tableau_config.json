@@ -1,0 +1,98 @@
+{
+  "tableau_config": {
+    "version": "2024.1",
+    "data_sources": {
+      "sample_csv": {
+        "path": "../data/samples/higgs_sample_50k.csv",
+        "description": "50K row sample for Tableau extract",
+        "note": "Use Tableau Extract (.hyper) for performance on large datasets"
+      },
+      "evaluation_results": {
+        "path": "../data/samples/test_evaluation_results.csv",
+        "description": "Model performance metrics table"
+      },
+      "feature_importances": {
+        "path": "../data/samples/feature_importances.csv",
+        "description": "Random Forest feature importance scores"
+      },
+      "scaling_results": {
+        "path": "../data/samples/scaling_results.csv",
+        "description": "Strong and weak scaling benchmark results"
+      },
+      "stability_results": {
+        "path": "../data/samples/stability_results.csv",
+        "description": "Model stability perturbation test results"
+      },
+      "business_cost": {
+        "path": "../data/samples/business_cost_results.csv",
+        "description": "Expected cost curve at different thresholds"
+      }
+    },
+    "dashboards": {
+      "dashboard1": {
+        "title": "Data Quality & Pipeline Monitoring",
+        "views": [
+          "Class Distribution Bar Chart",
+          "Missing Value Heatmap",
+          "Feature Distribution Histograms",
+          "Ingestion Time KPI Cards"
+        ],
+        "data_source": "sample_csv",
+        "lod_expressions": [
+          "{ FIXED [label] : COUNT([label]) }",
+          "{ FIXED [feature_name] : AVG([value]) }"
+        ]
+      },
+      "dashboard2": {
+        "title": "Model Performance & Feature Importance",
+        "views": [
+          "AUC-ROC Comparison Bar Chart",
+          "Feature Importance Treemap",
+          "Confusion Matrix Heatmap",
+          "Precision-Recall Scatter"
+        ],
+        "data_source": "evaluation_results",
+        "parameters": ["Model Selector", "Metric Selector"],
+        "actions": ["Filter on model select", "Highlight on hover"]
+      },
+      "dashboard3": {
+        "title": "Business Insights & Recommendations",
+        "views": [
+          "Cost-Threshold Curve (line chart)",
+          "Signal vs Background Separation",
+          "Optimal Threshold KPI",
+          "Top 5 Discriminating Features"
+        ],
+        "data_source": "business_cost",
+        "parameters": ["Cost Ratio FN/FP Slider"],
+        "storytelling_note": "Show how threshold choice impacts physics experiment costs"
+      },
+      "dashboard4": {
+        "title": "Scalability & Cost Analysis",
+        "views": [
+          "Strong Scaling Line Chart",
+          "Weak Scaling Line Chart",
+          "Model Training Time Comparison",
+          "Stability AUC vs Perturbation"
+        ],
+        "data_source": "scaling_results",
+        "annotations": [
+          "Ideal linear scaling reference line",
+          "Bottleneck region annotation at 400 partitions"
+        ]
+      }
+    },
+    "design_guidelines": {
+      "color_palette": {
+        "signal": "#FF5722",
+        "background_class": "#2196F3",
+        "accent": "#4CAF50",
+        "neutral": "#9E9E9E"
+      },
+      "font": "Tableau Book",
+      "mobile_layout": true,
+      "tooltips": "verbose — show all metrics on hover",
+      "export": "PDF and Image export enabled on each dashboard"
+    }
+  }
+}
