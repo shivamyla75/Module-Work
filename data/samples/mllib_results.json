@@ -1,0 +1,35 @@
+{
+  "LogisticRegression": {
+    "val_auc": 0.6522121928391262,
+    "train_time_s": 3.894361734390259,
+    "best_params": {
+      "regParam": 0.01,
+      "maxIter": 50
+    }
+  },
+  "RandomForest": {
+    "val_auc": 0.7316893253168775,
+    "train_time_s": 3.3324496746063232,
+    "best_params": {
+      "numTrees": 20,
+      "maxDepth": 8
+    }
+  },
+  "GBT": {
+    "val_auc": 0.7395339245205198,
+    "train_time_s": 15.082934379577637,
+    "best_params": {
+      "maxIter": 20,
+      "maxDepth": 4,
+      "stepSize": 0.1
+    }
+  },
+  "SVM": {
+    "val_auc": 0.6584783539825817,
+    "train_time_s": 7.7667460441589355,
+    "best_params": {
+      "regParam": 0.01,
+      "maxIter": 50
+    }
+  }
+}
