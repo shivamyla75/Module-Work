@@ -1,0 +1,68 @@
+# ============================================================
+# .gitignore — HIGGS Boson Big Data ML Project
+# ============================================================
+
+# ---- Large data files (do NOT commit to git) ----
+data/HIGGS.csv
+data/HIGGS.csv.gz
+data/higgs_parquet/
+data/train/
+data/val/
+data/test/
+data/models/
+data/samples/*.png
+data/samples/*.csv
+
+# ---- Keep schema and small samples ----
+!data/schemas/higgs_schema.json
+!data/samples/higgs_sample_50k.csv
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.eggs/
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+notebooks/executed_*.ipynb
+
+# ---- Spark ----
+spark-warehouse/
+derby.log
+metastore_db/
+/tmp/spark_checkpoints/
+
+# ---- Environment ----
+.env
+.venv
+venv/
+env/
+*.conda
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ---- Logs ----
+*.log
+pipeline_run.log
+spark*.log
+
+# ---- Tableau ----
+tableau/*.twbx
+# Keep README
+!tableau/README_tableau.md
