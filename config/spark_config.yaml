@@ -1,0 +1,62 @@
+# ============================================================
+# Spark Configuration — HIGGS Boson Big Data ML Project
+# ============================================================
+# Justification for each setting documented inline
+
+# --- Driver ---
+driver_memory: "8g"
+# 8GB: needed to collect 200K rows for sklearn comparison
+# and to fit preprocessing pipeline models in driver memory
+
+# --- Executor ---
+executor_memory: "6g"
+# 6GB per executor: 8GB HIGGS Parquet + feature vectors
+# leaves headroom for OS and Spark overhead (~20% buffer rule)
+
+executor_cores: 4
+# 4 cores per executor: optimal for I/O-bound Parquet reads
+# avoids HDFS contention from too many concurrent readers
+
+num_executors: 4
+# 4 executors × 4 cores = 16 total cores
+# suitable for a single multi-core workstation or small cluster
+
+# --- Shuffle ---
+shuffle_partitions: 200
+# 200 partitions: rule of thumb ~128MB per partition
+# 8GB dataset / 128MB ≈ 64 min; 200 gives headroom for skew
+
+# --- Serialization ---
+serializer: "org.apache.spark.serializer.KryoSerializer"
+# Kryo is ~10x faster than Java default for ML feature vectors
+
+# --- Storage ---
+storage_format: "parquet"
+compression: "snappy"
+# Parquet: columnar, predicate pushdown, efficient for ML feature reads
+# Snappy: fast decompression, ~3x compression ratio
+
+# --- Adaptive Query Execution (Spark 3.x) ---
+adaptive_enabled: true
+coalesce_partitions: true
+# AQE dynamically coalesces shuffle partitions to avoid small tasks
+# and optimises join strategies based on runtime statistics
+
+# --- Memory Management ---
+memory_fraction: 0.8
+# 80% of executor heap for Spark storage + execution
+# 20% reserved for user code and JVM overhead
+
+storage_fraction: 0.5
+# 50% of memory_fraction for caching DataFrames
+# allows both caching train/val/test AND executing queries
+
+# --- Broadcast threshold ---
+broadcast_threshold_mb: 100
+# Broadcast joins used for DataFrames under 100MB
+# e.g., schema metadata, label encoder mappings
+
+# --- Checkpoint ---
+checkpoint_dir: "/tmp/spark_checkpoints"
+# Used by CrossValidator during hyperparameter tuning
+# prevents DAG lineage explosion over many CV folds
